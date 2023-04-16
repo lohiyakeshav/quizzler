@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
+import 'quiz_brain.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +15,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.purple,
-          title: Text('Quizzler'),
+          backgroundColor: Colors.black45,
+          title: const Center(
+            child: Text(
+              "Quizzler",
+              style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 20,
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
         ),
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
@@ -52,6 +63,32 @@ class QuizPage extends StatefulWidget {
 
 List<Icon> scoreKeeper = [];
 
+int questionNumber = 0;
+
+//Q1 is hehe a god?, 'True'
+//Q2 is Priyanshu a Snake?, 'True'
+//Q3 is Vanshika smart?, 'False'
+
+
+// List<String> questions = [
+//   'Is hehe a god?',
+//   'Is Priyanshu a Snake?',
+//   'Is Vanshika smart?'
+// ];
+//
+// Question q1 = Question(q: 'Is hehe a god?', a: true);
+//
+// List<bool> answers = [true, true, false];
+//
+// List<Question> questionBank =[
+//   Question(q: 'Is hehe a god?', a: true),
+//   Question(q: 'Is Priyanshu a Snake?', a: true),
+//   Question(q: 'Is Vanshika smart?', a: false)
+// ];
+
+QuizBrain quizBrain = QuizBrain();
+
+
 class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
@@ -65,7 +102,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10),
             child: Center(
               child: Text(
-                "Question :)",
+                quizBrain.questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25, color: Colors.white),
               ),
@@ -88,6 +125,13 @@ class _QuizPageState extends State<QuizPage> {
                         color: Colors.green,
                       ),
                     );
+                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    if (correctAnswer == true) {
+                      print("Right");
+                    } else {
+                      print("Wrong");
+                    }
+                    questionNumber = questionNumber + 1;
                   },
                 );
               },
@@ -111,6 +155,13 @@ class _QuizPageState extends State<QuizPage> {
                         color: Colors.red,
                       ),
                     );
+                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    if (correctAnswer == false) {
+                      print("Right");
+                    } else {
+                      print("Wrong");
+                    }
+                    questionNumber = questionNumber + 1;
                   },
                 );
               },

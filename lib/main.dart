@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
 import 'quiz_brain.dart';
 
 void main() {
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
             child: Text(
               "Quizzler",
               style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Raleway',
                   fontSize: 20,
                   // fontWeight: FontWeight.bold,
                   color: Colors.white),
@@ -61,9 +60,21 @@ class QuizPage extends StatefulWidget {
 //   );
 // }
 
-List<Icon> scoreKeeper = [];
+  List<Icon> scoreKeeper = [];
 
-int questionNumber = 0;
+  void checkAnswer(bool userPickedAnswer){
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+    if (userPickedAnswer == correctAnswer) {
+      print("Right");
+    } else {
+      print("Wrong");
+    }
+    setState(() {
+      quizBrain.nextQuestion();
+    });
+  }
+
+
 
 //Q1 is hehe a god?, 'True'
 //Q2 is Priyanshu a Snake?, 'True'
@@ -102,7 +113,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10),
             child: Center(
               child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25, color: Colors.white),
               ),
@@ -117,23 +128,15 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStatePropertyAll(Colors.green),
               ),
               onPressed: () {
-                setState(
-                  () {
-                    scoreKeeper.add(
-                      Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ),
-                    );
-                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
-                    if (correctAnswer == true) {
-                      print("Right");
-                    } else {
-                      print("Wrong");
-                    }
-                    questionNumber = questionNumber + 1;
-                  },
-                );
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+                if (true == correctAnswer) {
+                  print("Right");
+                } else {
+                  print("Wrong");
+                }
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
               child: Text("True", style: TextStyle(color: Colors.white)),
             ),
@@ -147,23 +150,15 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStatePropertyAll(Colors.red),
               ),
               onPressed: () {
-                setState(
-                  () {
-                    scoreKeeper.add(
-                      Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ),
-                    );
-                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
-                    if (correctAnswer == false) {
-                      print("Right");
-                    } else {
-                      print("Wrong");
-                    }
-                    questionNumber = questionNumber + 1;
-                  },
-                );
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+              if (false == correctAnswer) {
+                print("Right");
+              } else {
+                print("Wrong");
+              }
+              setState(() {
+                quizBrain.nextQuestion();
+              });
               },
               child: Text("False", style: TextStyle(color: Colors.white)),
             ),
